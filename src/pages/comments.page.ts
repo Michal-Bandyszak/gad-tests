@@ -1,14 +1,11 @@
+import { MainMenuComponent } from '../components/main-menu.component';
+import { BasePage } from './base.page';
 import { Page } from '@playwright/test';
 
-export class CommentsPage {
+export class CommentsPage extends BasePage {
   url = '/comments.html';
-  constructor(private page: Page) {}
-
-  async goto(): Promise<void> {
-    await this.page.goto(this.url);
-  }
-
-  async title(): Promise<string> {
-    return await this.page.title();
+  mainMenu = new MainMenuComponent(this.page);
+  constructor(page: Page) {
+    super(page);
   }
 }
