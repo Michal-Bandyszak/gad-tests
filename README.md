@@ -32,7 +32,20 @@ npx playwright test
 Run all tests with tags:
 
 ```
-npx playwright test --grep @GAD-R01-02
+npx playwright test --grep "@GAD-R01-02"
 ```
+
+Run all tests without tag:
+
+```
+npx playwright test --grep-invert "@GAD-R01-02"
+```
+
+Run all tests without tag:
+
+```
+npx playwright test --grep "@fast|@simple"
+```
+
 
 For more usage cases look in `package.json` scripts section.
