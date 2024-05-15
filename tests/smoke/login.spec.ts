@@ -1,5 +1,6 @@
 import { LoginPage } from '../../src/pages/login.page';
 import { WelcomePage } from '../../src/pages/welcome.page';
+import { testUser1 } from '../../src/test-data/user.data';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify login', () => {
@@ -7,8 +8,8 @@ test.describe('Verify login', () => {
     page,
   }) => {
     // Arrange
-    const userEmail = 'Moses.Armstrong@Feest.ca';
-    const userPassword = 'test1';
+    const userEmail = testUser1.userEmail;
+    const userPassword = testUser1.userPassword;
     const loginPage = new LoginPage(page);
     await loginPage.goto();
 
