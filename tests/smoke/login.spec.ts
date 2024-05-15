@@ -21,4 +21,23 @@ test.describe('Verify login', () => {
     //Assert
     expect(title).toContain('Welcome');
   });
+  test('Reject login test with incorrect password @GAD_R02_01', async ({
+    page,
+  }) => {
+    // Arrange
+    const userEmail = testUser1.userEmail;
+    const userPassword = 'Incorrect password';
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+
+    // Act
+    await loginPage.login(userEmail, userPassword);
+
+    //Assert
+    await expect
+      .soft(loginPage.loginError)
+      .toHaveText('Invalid username or password');
+    const title = await loginPage.title();
+    expect(title).toContain('Login');
+  });
 });
