@@ -12,23 +12,22 @@ test.describe('Verify Articles', () => {
   }) => {
     // Arrange
     const loginPage = new LoginPage(page);
+    const articlesPage = new ArticlesPage(page);
+    const addArticleView = new AddArticleView(page);
+    const articlePage = new ArticlePage(page);
+
+    const articleData = randomNewArticle();
+
     await loginPage.goto();
     await loginPage.login(testUser1);
-
-    const articlesPage = new ArticlesPage(page);
     await articlesPage.goto();
 
     // Act
     await articlesPage.addArticleButtonLogged.click();
-
-    const addArticleView = new AddArticleView(page);
     await expect.soft(addArticleView.header).toBeVisible();
-
-    const articleData = randomNewArticle();
     await addArticleView.createArticle(articleData);
 
     //Assert
-    const articlePage = new ArticlePage(page);
     await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
     await expect
       .soft(articlePage.articleBody)
@@ -41,20 +40,18 @@ test.describe('Verify Articles', () => {
     // Arrange
     const expectedErrorText = 'Article was not created';
     const loginPage = new LoginPage(page);
+    const articlesPage = new ArticlesPage(page);
+    const addArticleView = new AddArticleView(page);
+
+    const articleData = randomNewArticle();
+    articleData.title = '';
+
     await loginPage.goto();
     await loginPage.login(testUser1);
-
-    const articlesPage = new ArticlesPage(page);
     await articlesPage.goto();
 
     //Act
     await articlesPage.addArticleButtonLogged.click();
-
-    const addArticleView = new AddArticleView(page);
-    await expect.soft(addArticleView.header).toBeVisible();
-
-    const articleData = randomNewArticle();
-    articleData.title = '';
     await addArticleView.createArticle(articleData);
 
     //Assert
@@ -66,20 +63,18 @@ test.describe('Verify Articles', () => {
     // Arrange
     const expectedErrorText = 'Article was not created';
     const loginPage = new LoginPage(page);
+    const articlesPage = new ArticlesPage(page);
+    const addArticleView = new AddArticleView(page);
+
+    const articleData = randomNewArticle();
+    articleData.body = '';
+
     await loginPage.goto();
     await loginPage.login(testUser1);
-
-    const articlesPage = new ArticlesPage(page);
     await articlesPage.goto();
 
     //Act
     await articlesPage.addArticleButtonLogged.click();
-
-    const addArticleView = new AddArticleView(page);
-    await expect.soft(addArticleView.header).toBeVisible();
-
-    const articleData = randomNewArticle();
-    articleData.body = '';
     await addArticleView.createArticle(articleData);
 
     //Assert
