@@ -47,5 +47,4 @@ Run all tests without tag:
 npx playwright test --grep "@fast|@simple"
 ```
 
-
 For more usage cases look in `package.json` scripts section.
