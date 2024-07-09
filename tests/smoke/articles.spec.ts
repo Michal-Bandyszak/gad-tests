@@ -1,5 +1,4 @@
 import { randomNewArticle } from '../../src/factories/article.factory';
-import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
@@ -11,13 +10,11 @@ test.describe('Verify Articles', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
   let addArticleView: AddArticleView;
-  let articleData: AddArticleModel;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
     addArticleView = new AddArticleView(page);
-    articleData = randomNewArticle();
 
     await loginPage.goto();
     await loginPage.login(testUser1);
@@ -32,6 +29,7 @@ test.describe('Verify Articles', () => {
   }) => {
     // Arrange
     const articlePage = new ArticlePage(page);
+    const articleData = randomNewArticle();
 
     // Act
     await addArticleView.createArticle(articleData);
@@ -46,6 +44,7 @@ test.describe('Verify Articles', () => {
   test('Reject creating article without title field #GAD_R04_01 @S04', async () => {
     // Arrange
     const expectedErrorText = 'Article was not created';
+    const articleData = randomNewArticle();
     articleData.title = '';
 
     //Act
@@ -67,5 +66,32 @@ test.describe('Verify Articles', () => {
 
     //Assert
     await expect(addArticleView.alertPopup).toHaveText(expectedErrorText);
+  });
+  test.describe('title length', () => {
+    test('Create article with title with 128 signs @GAD_R04_02', async ({
+      page,
+    }) => {
+      // Arrange
+      const articlePage = new ArticlePage(page);
+      const articleData = randomNewArticle(128);
+
+      // Act
+      await addArticleView.createArticle(articleData);
+
+      // Assert
+      await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+    });
+    test('Reject creating article with title exceeding 128 signs @GAD_R04_02', async () => {
+      // Arrange
+      const expectedErrorText = 'Article was not created';
+      const articleData = randomNewArticle(129);
+
+      // Act
+      await addArticleView.createArticle(articleData);
+      // Assert
+      await expect
+        .soft(addArticleView.alertPopup)
+        .toHaveText(expectedErrorText);
+    });
   });
 });
