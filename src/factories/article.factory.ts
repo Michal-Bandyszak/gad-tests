@@ -4,8 +4,8 @@ import { faker } from '@faker-js/faker/locale/en';
 export function randomNewArticle(titleLength?: number): AddArticleModel {
   let title: string;
   if (titleLength) title = faker.string.alpha(titleLength);
-  else title = faker.lorem.sentence();
-  
+  else title = faker.lorem.sentence(3);
+
   const body = faker.lorem.paragraphs(3);
 
   const newArticle: AddArticleModel = { title: title, body: body };
