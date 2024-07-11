@@ -5,14 +5,15 @@ import { ArticlesPage } from '../../src/pages/articles.page';
 import { LoginPage } from '../../src/pages/login.page';
 import { testUser1 } from '../../src/test-data/user.data';
 import { AddArticleView } from '../../src/views/add-article.view';
-import { expect, test } from '@playwright/test';
+import test, { expect } from '@playwright/test';
 
-test.describe('Create and verify Article', () => {
+test.describe.configure({ mode: 'serial' });
+test.describe('Create, verify and delete Article', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
-  let articlePage: ArticlePage;
   let addArticleView: AddArticleView;
   let articleData: AddArticleModel;
+  let articlePage: ArticlePage;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
@@ -28,7 +29,6 @@ test.describe('Create and verify Article', () => {
   test('User can create article with mandatory fields #GAD_R04_01 @S04', async () => {
     // Arrange
     articleData = randomNewArticle();
-
     // Act
     await articlesPage.addArticleButtonLogged.click();
     await expect.soft(addArticleView.header).toBeVisible();
@@ -36,6 +36,7 @@ test.describe('Create and verify Article', () => {
 
     //Assert
     await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
+
     await expect
       .soft(articlePage.articleBody)
       .toHaveText(articleData.body, { useInnerText: true });
@@ -50,5 +51,21 @@ test.describe('Create and verify Article', () => {
     await expect
       .soft(articlePage.articleBody)
       .toHaveText(articleData.body, { useInnerText: true });
+  });
+
+  test('User can delete added article @GAD-R04-04', async () => {
+    // Arrange
+    await articlesPage.gotoArticle(articleData.title);
+
+    // Act
+    await articlePage.deleteArticle();
+
+    // Assert
+    await articlesPage.waitForPageToLoadURL();
+    const title = await articlesPage.title();
+    expect(title).toContain('Articles');
+
+    await articlesPage.searchForArticle(articleData.title);
+    await expect(articlesPage.noResultText).toHaveText('No data');
   });
 });
