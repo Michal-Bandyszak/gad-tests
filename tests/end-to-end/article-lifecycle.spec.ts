@@ -31,7 +31,7 @@ test.describe('Create, verify and delete Article', () => {
     articleData = randomNewArticle();
     // Act
     await articlesPage.addArticleButtonLogged.click();
-    await expect.soft(addArticleView.header).toBeVisible();
+    await expect.soft(addArticleView.addNewHeader).toBeVisible();
     await addArticleView.createArticle(articleData);
 
     //Assert
