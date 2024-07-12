@@ -1,4 +1,4 @@
-import { randomUserData } from '../../src/factories/user.factory';
+import { prepareRandomUser } from '../../src/factories/user.factory';
 import { RegisterUserModel } from '../../src/models/user.model';
 import { LoginPage } from '../../src/pages/login.page';
 import { RegisterPage } from '../../src/pages/register.page';
@@ -11,7 +11,7 @@ test.describe('Verify registration', () => {
 
   test.beforeEach(async ({ page }) => {
     registerPage = new RegisterPage(page);
-    registerUserData = randomUserData();
+    registerUserData = prepareRandomUser();
     await registerPage.goto();
   });
 
@@ -20,19 +20,20 @@ test.describe('Verify registration', () => {
   }) => {
     // Arrange
     const expectedAlertPopupText = 'User created';
+    const expectedWelcomeTitle = 'Welcome';
+    const expectedLoginTitle = 'Login';
     const loginPage = new LoginPage(page);
     const welcomePage = new WelcomePage(page);
-
+    
     // Act
-
     await registerPage.register(registerUserData);
 
     // Assert
     await expect(registerPage.alertPopup).toHaveText(expectedAlertPopupText);
 
     await loginPage.waitForPageToLoadURL();
-    const title = await loginPage.title();
-    expect.soft(title).toContain('Login');
+    const title = await loginPage.getTitle();
+    expect.soft(title).toContain(expectedLoginTitle);
 
     // Assert test login
     await loginPage.login({
@@ -40,8 +41,8 @@ test.describe('Verify registration', () => {
       userPassword: registerUserData.userPassword,
     });
 
-    const titleWelcome = await welcomePage.title();
-    expect(titleWelcome).toContain('Welcome');
+    const titleWelcome = await welcomePage.getTitle();
+    expect(titleWelcome).toContain(expectedWelcomeTitle);
   });
 
   test('Not register with incorrect data - non valid email @GAD_R03_04', async () => {
@@ -62,8 +63,8 @@ test.describe('Verify registration', () => {
     // Arrange
     const expectedErrorText = 'This field is required';
     const registerPage = new RegisterPage(page);
-    // Act
 
+    // Act
     await registerPage.firstNameInput.fill(registerUserData.userFirstName);
     await registerPage.lastNameInput.fill(registerUserData.userLastName);
     await registerPage.userPasswordInput.fill(registerUserData.userPassword);

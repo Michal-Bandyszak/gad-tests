@@ -8,6 +8,7 @@ test.describe('Verify menu main button', () => {
     page,
   }) => {
     //Arrange
+    const expectedCommentsTitle = 'Comments';
     const commentsPage = new CommentsPage(page);
     const articlesPage = new ArticlesPage(page);
     const menuComponent = new MainMenuComponent(page);
@@ -17,17 +18,17 @@ test.describe('Verify menu main button', () => {
     await menuComponent.commentsButton.click();
 
     //Assert
-    const title = await commentsPage.title();
-    expect(title).toContain('Comments');
+    const title = await commentsPage.getTitle();
+    expect(title).toContain(expectedCommentsTitle);
   });
 
   test('articles button navigates to articles page @GAD_R01_03', async ({
     page,
   }) => {
     //Arrange
+    const expectedArticlesTitle = 'Articles';
     const articlesPage = new ArticlesPage(page);
     const commentsPage = new CommentsPage(page);
-
     const menuComponent = new MainMenuComponent(page);
 
     //Act
@@ -35,7 +36,7 @@ test.describe('Verify menu main button', () => {
     await menuComponent.articlesButton.click();
 
     //Assert
-    const title = await articlesPage.title();
-    expect(title).toContain('Articles');
+    const title = await articlesPage.getTitle();
+    expect(title).toContain(expectedArticlesTitle);
   });
 });
