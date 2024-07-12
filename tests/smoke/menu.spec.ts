@@ -4,7 +4,7 @@ import { CommentsPage } from '../../src/pages/comments.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify menu main button', () => {
-  test('comments button navigates to comments page @GAD_R01_03', async ({
+  test('comments button navigates to comments page @GAD-R01-03', async ({
     page,
   }) => {
     //Arrange
@@ -22,7 +22,7 @@ test.describe('Verify menu main button', () => {
     expect(title).toContain(expectedCommentsTitle);
   });
 
-  test('articles button navigates to articles page @GAD_R01_03', async ({
+  test('articles button navigates to articles page @GAD-R01-03', async ({
     page,
   }) => {
     //Arrange

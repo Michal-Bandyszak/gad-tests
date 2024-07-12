@@ -15,7 +15,7 @@ test.describe('Verify registration', () => {
     await registerPage.goto();
   });
 
-  test('Register with correct data and login @GAD_R03_01 @GAD_R03_02 @GAD_R03_03', async ({
+  test('Register with correct data and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({
     page,
   }) => {
     // Arrange
@@ -45,7 +45,7 @@ test.describe('Verify registration', () => {
     expect(titleWelcome).toContain(expectedWelcomeTitle);
   });
 
-  test('Not register with incorrect data - non valid email @GAD_R03_04', async () => {
+  test('Not register with incorrect data - non valid email @GAD-R03-04', async () => {
     // Arrange
     const expectedErrorText = 'Please provide a valid email address';
     registerUserData.userEmail = '#$%';
@@ -57,7 +57,7 @@ test.describe('Verify registration', () => {
     //Assert
     await expect(registerPage.emailErrorText).toHaveText(expectedErrorText);
   });
-  test('Not register with incorrect data - no email provided @GAD_R03_04', async ({
+  test('Not register with incorrect data - no email provided @GAD-R03-04', async ({
     page,
   }) => {
     // Arrange

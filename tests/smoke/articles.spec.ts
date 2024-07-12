@@ -25,7 +25,7 @@ test.describe('Create and verify Article', () => {
     await articlesPage.goto();
   });
 
-  test('User can create article with mandatory fields #GAD_R04_01 @S04', async () => {
+  test('User can create article with mandatory fields #GAD-R04-01 @S04', async () => {
     // Arrange
     articleData = prepareRandomArticle();
 
@@ -41,7 +41,7 @@ test.describe('Create and verify Article', () => {
       .toHaveText(articleData.body, { useInnerText: true });
   });
 
-  test('User can access single article @GAD-R04-03', async () => {
+  test('User can access single article #GAD-R04-03 @S04', async () => {
     // Act
     await articlesPage.gotoArticle(articleData.title);
 
