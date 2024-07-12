@@ -1,4 +1,4 @@
-import { randomNewArticle } from '../../src/factories/article.factory';
+import { prepareRandomArticle } from '../../src/factories/article.factory';
 import { AddArticleModel } from '../../src/models/article.model';
 import { ArticlePage } from '../../src/pages/article.page';
 import { ArticlesPage } from '../../src/pages/articles.page';
@@ -27,7 +27,7 @@ test.describe('Create and verify Article', () => {
 
   test('User can create article with mandatory fields #GAD_R04_01 @S04', async () => {
     // Arrange
-    articleData = randomNewArticle();
+    articleData = prepareRandomArticle();
 
     // Act
     await articlesPage.addArticleButtonLogged.click();
