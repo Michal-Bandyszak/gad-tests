@@ -10,7 +10,7 @@ export class ArticlePage extends BasePage {
   articleTitle = this.page.getByTestId('article-title');
   articleBody = this.page.getByTestId('article-body');
   deleteArticleIcon = this.page.getByTestId('delete');
-  addCommentButton = this.page.locator('#add-new');
+  addNewCommentButton = this.page.locator('#add-new');
   alertPopup = this.page.getByTestId('alert-popup');
   constructor(page: Page) {
     super(page);
