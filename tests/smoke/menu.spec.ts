@@ -1,6 +1,6 @@
-import { MainMenuComponent } from '../../src/components/main-menu.component';
-import { ArticlesPage } from '../../src/pages/articles.page';
-import { CommentsPage } from '../../src/pages/comments.page';
+import { MainMenuComponent } from '@_src/components/main-menu.component';
+import { ArticlesPage } from '@_src/pages/articles.page';
+import { CommentsPage } from '@_src/pages/comments.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify menu main button', () => {

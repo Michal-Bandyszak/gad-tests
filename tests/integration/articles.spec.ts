@@ -1,8 +1,8 @@
-import { prepareRandomArticle } from '../../src/factories/article.factory';
-import { ArticlePage } from '../../src/pages/article.page';
-import { ArticlesPage } from '../../src/pages/articles.page';
-import { AddArticleView } from '../../src/views/add-article.view';
-// import { testUser1 } from '../../src/test-data/user.data';
+// import { testUser1 } from '@_src/test-data/user.data';
+import { prepareRandomArticle } from '@_src/factories/article.factory';
+import { ArticlePage } from '@_src/pages/article.page';
+import { ArticlesPage } from '@_src/pages/articles.page';
+import { AddArticleView } from '@_src/views/add-article.view';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify Article', () => {
@@ -48,11 +48,9 @@ test.describe('Verify Article', () => {
 
   test.describe('title length', () => {
     test('reject creating article with title exceeding 128 signs @GAD-R04-02 @logged', async () => {
+      //Arrange
       const expectedErrorMessage = 'Article was not created';
       const articleData = prepareRandomArticle(129);
-
-      await articlesPage.addArticleButtonLogged.click();
-      await expect.soft(addArticleView.addNewHeader).toBeVisible();
 
       // Act
       await addArticleView.createArticle(articleData);
@@ -67,7 +65,7 @@ test.describe('Verify Article', () => {
       const articlePage = new ArticlePage(page);
       const articleData = prepareRandomArticle(128);
       // Act
-      await expect.soft(addArticleView.addNewHeader).toBeVisible();
+      await addArticleView.createArticle(articleData);
 
       // Assert
       await expect.soft(articlePage.articleTitle).toHaveText(articleData.title);
