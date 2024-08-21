@@ -24,7 +24,7 @@ test.describe('Verify registration', () => {
     const expectedLoginTitle = 'Login';
     const loginPage = new LoginPage(page);
     const welcomePage = new WelcomePage(page);
-    
+
     // Act
     await registerPage.register(registerUserData);
 
