@@ -1,6 +1,6 @@
+import { AddArticleModel } from '@_s@_src/models/article.model';
 import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { prepareRandomComment } from '@_src/factories/comment.factory';
-import { AddArticleModel } from '@_src/models/article.model';
 import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { CommentPage } from '@_src/pages/comment.page';
