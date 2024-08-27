@@ -1,8 +1,6 @@
 import { prepareRandomUser } from '@_src/factories/user.factory';
 import { RegisterUserModel } from '@_src/models/user.model';
-import { LoginPage } from '@_src/pages/login.page';
 import { RegisterPage } from '@_src/pages/register.page';
-import { WelcomePage } from '@_src/pages/welcome.page';
 import { expect, test } from '@playwright/test';
 
 test.describe('Verify registration', () => {
@@ -15,18 +13,14 @@ test.describe('Verify registration', () => {
     await registerPage.goto();
   });
 
-  test('Register with correct data and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({
-    page,
-  }) => {
+  test('Register with correct data and login @GAD-R03-01 @GAD-R03-02 @GAD-R03-03', async ({}) => {
     // Arrange
     const expectedAlertPopupText = 'User created';
     const expectedWelcomeTitle = 'Welcome';
     const expectedLoginTitle = 'Login';
-    const loginPage = new LoginPage(page);
-    const welcomePage = new WelcomePage(page);
 
     // Act
-    await registerPage.register(registerUserData);
+    const loginPage = await registerPage.register(registerUserData);
 
     // Assert
     await expect(registerPage.alertPopup).toHaveText(expectedAlertPopupText);
@@ -36,7 +30,7 @@ test.describe('Verify registration', () => {
     expect.soft(title).toContain(expectedLoginTitle);
 
     // Assert test login
-    await loginPage.login({
+    const welcomePage = await loginPage.login({
       userEmail: registerUserData.userEmail,
       userPassword: registerUserData.userPassword,
     });
