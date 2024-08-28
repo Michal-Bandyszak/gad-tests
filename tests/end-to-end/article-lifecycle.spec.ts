@@ -4,21 +4,18 @@ import { ArticlePage } from '@_src/pages/article.page';
 import { ArticlesPage } from '@_src/pages/articles.page';
 import { LoginPage } from '@_src/pages/login.page';
 import { testUser1 } from '@_src/test-data/user.data';
-import { AddArticleView } from '@_src/views/add-article.view';
 import test, { expect } from '@playwright/test';
 
 test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete Article', () => {
   let loginPage: LoginPage;
   let articlesPage: ArticlesPage;
-  let addArticleView: AddArticleView;
   let articleData: AddArticleModel;
   let articlePage: ArticlePage;
 
   test.beforeEach(async ({ page }) => {
     loginPage = new LoginPage(page);
     articlesPage = new ArticlesPage(page);
-    addArticleView = new AddArticleView(page);
     articlePage = new ArticlePage(page);
 
     await loginPage.goto();
@@ -30,7 +27,7 @@ test.describe('Create, verify and delete Article', () => {
     // Arrange
     articleData = prepareRandomArticle();
     // Act
-    await articlesPage.addArticleButtonLogged.click();
+    const addArticleView = await articlesPage.clickAddArticleButtonLogged();
     await expect.soft(addArticleView.addNewHeader).toBeVisible();
     await addArticleView.createArticle(articleData);
 
@@ -55,17 +52,19 @@ test.describe('Create, verify and delete Article', () => {
 
   test('User can delete added article @GAD-R04-04', async () => {
     // Arrange
-    await articlesPage.gotoArticle(articleData.title);
+    const expectedNoResultText = 'No data';
+    const expectedArticlesTitle = 'Articles';
+    const articlePage = await articlesPage.gotoArticle(articleData.title);
 
     // Act
-    await articlePage.deleteArticle();
+    articlesPage = await articlePage.deleteArticle();
 
     // Assert
     await articlesPage.waitForPageToLoadURL();
     const title = await articlesPage.getTitle();
-    expect(title).toContain('Articles');
+    expect(title).toContain(expectedArticlesTitle);
 
-    await articlesPage.searchForArticle(articleData.title);
-    await expect(articlesPage.noResultText).toHaveText('No data');
+    articlesPage = await articlesPage.searchForArticle(articleData.title);
+    await expect(articlesPage.noResultText).toHaveText(expectedNoResultText);
   });
 });
