@@ -20,6 +20,12 @@ export class ArticlePage extends BasePage {
   constructor(page: Page) {
     super(page);
   }
+
+  async clickAddCommentButton(): Promise<AddCommentView> {
+    this.addNewCommentButton.click();
+    return new AddCommentView(this.page);
+  }
+
   async deleteArticle(): Promise<ArticlesPage> {
     this.page.on('dialog', async (dialog) => {
       await dialog.accept();
@@ -39,13 +45,10 @@ export class ArticlePage extends BasePage {
     };
   }
 
-  async clickCommentLink(commentLink: Locator): Promise<CommentPage> {
-    await commentLink.click();
+  async clickCommentLink(
+    commentContainer: ArticleComment,
+  ): Promise<CommentPage> {
+    await commentContainer.link.click();
     return new CommentPage(this.page);
-  }
-
-  async clickAddCommentButton(): Promise<AddCommentView> {
-    this.addNewCommentButton.click();
-    return new AddCommentView(this.page);
   }
 }
