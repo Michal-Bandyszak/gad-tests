@@ -1,18 +1,13 @@
 import { STORAGE_STATE } from '@_pw-config';
-import { LoginPage } from '@_src/pages/login.page';
-import { WelcomePage } from '@_src/pages/welcome.page';
 import { testUser1 } from '@_src/test-data/user.data';
-import { expect, test as setup } from '@playwright/test';
+import { expect, test as setup} from '@_src/fixtures/merge.fixture';
 
-setup('Login and save session', async ({ page }) => {
+setup('Login and save session', async ({ loginPage, page }) => {
   // Arrange
   const expectedWelcomeTitle = 'Welcome';
-  const loginPage = new LoginPage(page);
-  const welcomePage = new WelcomePage(page);
-
+  
   // Act
-  await loginPage.goto();
-  await loginPage.login(testUser1);
+  const welcomePage = await loginPage.login(testUser1);
 
   const title = await welcomePage.getTitle();
 
