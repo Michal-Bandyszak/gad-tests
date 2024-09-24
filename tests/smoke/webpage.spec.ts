@@ -27,5 +27,8 @@ test.describe('Verify service main pages', () => {
     const title = await commentsPage.getTitle();
     expect(title).toContain(expectedCommentsTitle);
   });
-
+  test('home page title simple', async ({ page }) => {
+    await page.goto('');
+    await expect(page).toHaveTitle(/GAD/);
+  });
 });
