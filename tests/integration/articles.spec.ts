@@ -3,7 +3,7 @@ import { expect, test } from '@_src/fixtures/merge.fixture';
 import { waitForResponse } from '@_src/utils/wait.util';
 
 test.describe('Verify articles', () => {
-  test('reject creating article without title @GAD-R04-01 @logged', async ({
+  test('reject creating article without title @GAD-R04-01 @GAD-R07-03 @logged', async ({
     addArticleView,
     page,
   }) => {
@@ -24,7 +24,7 @@ test.describe('Verify articles', () => {
     expect(response.status()).toBe(expectedResponseCode);
   });
 
-  test('reject creating article without body @GAD-R04-01 @logged', async ({
+  test('reject creating article without body @GAD-R04-01 @GAD-R07-03 @logged', async ({
     addArticleView,
     page,
   }) => {
@@ -44,7 +44,7 @@ test.describe('Verify articles', () => {
   });
 
   test.describe('title length', () => {
-    test('reject creating article with title exceeding 128 signs @GAD-R04-02 @logged', async ({
+    test('reject creating article with title exceeding 128 signs @GAD-R04-02 @GAD-R07-03 @logged', async ({
       addArticleView,
       page,
     }) => {
