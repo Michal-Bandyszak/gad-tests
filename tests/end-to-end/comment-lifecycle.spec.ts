@@ -7,7 +7,7 @@ test.describe('Create, verify and delete comment', () => {
     createRandomArticle,
   }) => {
     const newCommentData = prepareRandomComment();
-    let articlePage = createRandomArticle.articlePage;
+    const articlePage = createRandomArticle.articlePage;
 
     await test.step('create new comment', async () => {
       // Arrange
