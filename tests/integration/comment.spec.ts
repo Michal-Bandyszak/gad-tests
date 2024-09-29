@@ -15,7 +15,13 @@ test.describe('Create, verify comment', () => {
 
     // Act
     articlePage = await addCommentView.createComment(newCommentData);
-    const responsePromise = waitForResponse(page, '/api/comments', 'GET');
+    const waitParams = {
+      page,
+      url: '/api/comments',
+      method: 'GET',
+      text: newCommentData.body,
+    };
+    const responsePromise = waitForResponse(waitParams);
     await expect(articlePage.alertPopup).toBeVisible({ timeout: 5000 });
     await expect
       .soft(articlePage.alertPopup)
