@@ -1,6 +1,6 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 
-test.describe('Verify articles API endpoint @GAD-R08-01 @api', () => {
+test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
   test.describe('Verify each condition in separate test', () => {
     test('GET articles should return an object with required fields @predefined_data', async ({
       request,
