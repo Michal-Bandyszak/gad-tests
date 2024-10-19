@@ -1,18 +1,12 @@
 import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { prepareRandomComment } from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { testUser1 } from '@_src/test-data/user.data';
+import { getAuthorizationBearer } from '@_src/utils/api.utils';
 
 test.describe('Verify comments CRUD operations @crud @GAD-R09-02', () => {
   let articleId: number;
-  let headers: { [key: string]: string };
-
+  let headers;
   test.beforeAll('create an article', async ({ request }) => {
-    const loginUrl = '/api/login';
-    const userData = {
-      email: testUser1.userEmail,
-      password: testUser1.userPassword,
-    };
     const articleUrl = '/api/articles';
     const randomArticleData = prepareRandomArticle();
     const articleData = {
@@ -23,12 +17,7 @@ test.describe('Verify comments CRUD operations @crud @GAD-R09-02', () => {
         '.\\data\\images\\256\\testing_app_0b34c17e-fe37-4887-a127-d0ee6eb9d7dc.jp',
     };
 
-    // Login
-    const loginResponse = await request.post(loginUrl, { data: userData });
-    const responseBody = await loginResponse.json();
-
-    headers = { Authorization: `Bearer ${responseBody.access_token}` };
-
+    headers = await getAuthorizationBearer(request);
     // Act
     const responseArticle = await request.post(articleUrl, {
       headers,
@@ -77,7 +66,7 @@ test.describe('Verify comments CRUD operations @crud @GAD-R09-02', () => {
       body: randomCommentData.body,
       date: '2024-10-16T15:00:31Z',
     };
-
+    headers = await getAuthorizationBearer(request);
     const response = await request.post(commentUrl, {
       headers,
       data: commentData,
