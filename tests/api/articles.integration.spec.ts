@@ -1,16 +1,18 @@
 import { expect, test } from '@_src/fixtures/merge.fixture';
 import {
+  apiLinks,
   getAuthorizationBearer,
   prepareArticlePayload,
 } from '@_src/utils/api.utils';
 
 test.describe('Verify articles CRUD operations @crud @GAD-R09-01', () => {
+  const articleUrl = apiLinks.articleUrl;
+
   test('should not create an article without a logged-in user', async ({
     request,
   }) => {
     // Arrange
     const expectedStatusCode = 401;
-    const articleUrl = '/api/articles';
     const articleData = prepareArticlePayload();
 
     // Act
