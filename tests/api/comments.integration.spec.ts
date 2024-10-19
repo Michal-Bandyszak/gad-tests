@@ -1,21 +1,16 @@
-import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { prepareRandomComment } from '@_src/factories/comment.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { getAuthorizationBearer } from '@_src/utils/api.utils';
+import {
+  getAuthorizationBearer,
+  prepareArticlePayload,
+} from '@_src/utils/api.utils';
 
 test.describe('Verify comments CRUD operations @crud @GAD-R09-02', () => {
   let articleId: number;
   let headers;
   test.beforeAll('create an article', async ({ request }) => {
     const articleUrl = '/api/articles';
-    const randomArticleData = prepareRandomArticle();
-    const articleData = {
-      title: randomArticleData.title,
-      body: randomArticleData.body,
-      date: '2024-10-16T15:00:31Z',
-      image:
-        '.\\data\\images\\256\\testing_app_0b34c17e-fe37-4887-a127-d0ee6eb9d7dc.jp',
-    };
+    const articleData = prepareArticlePayload();
 
     headers = await getAuthorizationBearer(request);
     // Act

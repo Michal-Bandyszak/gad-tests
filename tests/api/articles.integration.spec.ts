@@ -1,6 +1,8 @@
-import { prepareRandomArticle } from '@_src/factories/article.factory';
 import { expect, test } from '@_src/fixtures/merge.fixture';
-import { getAuthorizationBearer } from '@_src/utils/api.utils';
+import {
+  getAuthorizationBearer,
+  prepareArticlePayload,
+} from '@_src/utils/api.utils';
 
 test.describe('Verify articles CRUD operations @crud @GAD-R09-01', () => {
   test('should not create an article without a logged-in user', async ({
@@ -9,13 +11,7 @@ test.describe('Verify articles CRUD operations @crud @GAD-R09-01', () => {
     // Arrange
     const expectedStatusCode = 401;
     const articleUrl = '/api/articles';
-    const randomArticleData = prepareRandomArticle();
-    const articleData = {
-      title: randomArticleData.title,
-      body: randomArticleData.body,
-      date: '2024-10-16T15:00:31Z',
-      image: '',
-    };
+    const articleData = prepareArticlePayload();
 
     // Act
 
@@ -33,15 +29,7 @@ test.describe('Verify articles CRUD operations @crud @GAD-R09-01', () => {
     const expectedStatusCode = 201;
 
     const articleUrl = '/api/articles';
-
-    const randomArticleData = prepareRandomArticle();
-    const articleData = {
-      title: randomArticleData.title,
-      body: randomArticleData.body,
-      date: '2024-10-16T15:00:31Z',
-      image:
-        '.\\data\\images\\256\\testing_app_0b34c17e-fe37-4887-a127-d0ee6eb9d7dc.jp',
-    };
+    const articleData = prepareArticlePayload();
 
     // Act
     const headers = await getAuthorizationBearer(request);
