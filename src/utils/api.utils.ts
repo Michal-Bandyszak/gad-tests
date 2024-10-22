@@ -4,15 +4,26 @@ import { testUser1 } from '@_src/test-data/user.data';
 import { APIRequestContext } from '@playwright/test';
 
 export const apiLinks = {
-  articleUrl: '/api/articles',
+  articlesUrl: '/api/articles',
   commentsUrl: '/api/comments',
   loginUrl: '/api/login',
 };
-interface Headers {
+export interface CommentData {
+  body: string;
+  date: string;
+  article_id: number;
+}
+export interface ArticlePayload {
+  title: string;
+  body: string;
+  date: string;
+  image: string;
+}
+export interface Headers {
   [key: string]: string;
 }
 
-export async function getAuthorizationBearer(
+export async function getAuthorizationHeader(
   request: APIRequestContext,
 ): Promise<Headers> {
   const userData = {
@@ -30,14 +41,7 @@ export async function getAuthorizationBearer(
   return headers;
 }
 
-interface ArticleData {
-  title: string;
-  body: string;
-  date: string;
-  image: string;
-}
-
-export function prepareArticlePayload(): ArticleData {
+export function prepareArticlePayload(): ArticlePayload {
   const randomArticleData = prepareRandomArticle();
   const articleData = {
     title: randomArticleData.title,
@@ -48,11 +52,6 @@ export function prepareArticlePayload(): ArticleData {
   };
 
   return articleData;
-}
-interface CommentData {
-  body: string;
-  date: string;
-  article_id: number;
 }
 
 export function prepareCommentPayload(articleId: number): CommentData {
