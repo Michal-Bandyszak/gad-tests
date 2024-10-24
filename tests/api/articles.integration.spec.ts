@@ -8,6 +8,24 @@ import {
 } from '@_src/utils/api.utils';
 import { APIResponse } from '@playwright/test';
 
+test.describe('Verify articles CRUD operations @crud', () => {
+  test('should not create an article without a logged-in user  @GAD-R09-03', async ({
+    request,
+  }) => {
+    // Arrange
+    const expectedStatusCode = 401;
+    const articleData = prepareArticlePayload();
+
+    // Arrange
+    const response = await request.post(apiLinks.articlesUrl, {
+      data: articleData,
+    });
+
+    // Assert
+    expect(response.status()).toBe(expectedStatusCode);
+  });
+});
+
 test.describe('crud operations', () => {
   let responseArticle: APIResponse;
   let headers: Headers;
@@ -23,6 +41,19 @@ test.describe('crud operations', () => {
       headers,
       data: articleData,
     });
+
+    // assert article exist
+    const articleJson = await responseArticle.json();
+    const expectedStatusCode = 200;
+    await expect(async () => {
+      const responseArticleCreated = await request.get(
+        `${apiLinks.articlesUrl}/${articleJson.id}`,
+      );
+      expect(
+        responseArticleCreated.status(),
+        `Expected status: ${expectedStatusCode} and observed: ${responseArticleCreated.status()}`,
+      ).toBe(expectedStatusCode);
+    }).toPass({ timeout: 2_000 });
   });
 
   test('should create an article with logged-in user @GAD-R09-03', async () => {
