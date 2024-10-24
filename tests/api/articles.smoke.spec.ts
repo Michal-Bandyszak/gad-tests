@@ -1,12 +1,12 @@
-import { expect, test } from '@_src/fixtures/merge.fixture';
-import { apiLinks } from '@_src/utils/api.utils';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { apiLinks } from '@_src/ui/utils/api.utils';
 
 test.describe('Verify articles API endpoint @GAD-R08-01 @smoke', () => {
   test.describe('Verify each condition in separate test', () => {
     test('GET articles should return an object with required fields @predefined_data', async ({
       request,
     }) => {
-      const response = await request.get(apiLinks.articleUrl);
+      const response = await request.get(apiLinks.articlesUrl);
       const responseJson = await response.json();
 
       await test.step('GET articles return status code 200', async () => {

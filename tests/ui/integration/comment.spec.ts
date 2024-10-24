@@ -1,20 +1,19 @@
-import { prepareRandomComment } from '@_src/factories/comment.factory';
-import { expect, test } from '@_src/fixtures/merge.fixture';
-import { waitForResponse } from '@_src/utils/wait.util';
+import { prepareRandomComment } from '@_src/ui/factories/comment.factory';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { waitForResponse } from '@_src/ui/utils/wait.util';
 
-test.describe('Create, verify comment', () => {
-  test('should return created comment from API @GAD-R07-04 @logged', async ({
+test.describe('Verify comment', () => {
+  test('should return created comment @GAD-R07-06 @logged', async ({
     createRandomArticle,
     page,
   }) => {
     // Arrange
     const expectedCommentCreatedPopup = 'Comment was created';
+
     const newCommentData = prepareRandomComment();
     let articlePage = createRandomArticle.articlePage;
     const addCommentView = await articlePage.clickAddCommentButton();
 
-    // Act
-    articlePage = await addCommentView.createComment(newCommentData);
     const waitParams = {
       page,
       url: '/api/comments',
@@ -22,14 +21,16 @@ test.describe('Create, verify comment', () => {
       text: newCommentData.body,
     };
     const responsePromise = waitForResponse(waitParams);
-    await expect(articlePage.alertPopup).toBeVisible({ timeout: 5000 });
+
+    // Act
+    articlePage = await addCommentView.createComment(newCommentData);
+    const response = await responsePromise;
+
+    // Assert
     await expect
       .soft(articlePage.alertPopup)
       .toHaveText(expectedCommentCreatedPopup);
 
-    const response = await responsePromise;
-
-    // Assert
     expect(response.ok()).toBeTruthy();
   });
 });
