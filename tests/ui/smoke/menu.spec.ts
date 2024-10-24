@@ -1,5 +1,5 @@
-import { MainMenuComponent } from '@_src/components/main-menu.component';
-import { expect, test } from '@_src/fixtures/merge.fixture';
+import { MainMenuComponent } from '@_src/ui/components/main-menu.component';
+import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe('Verify menu main button', () => {
   test('comments button navigates to comments page @GAD-R01-03', async ({
