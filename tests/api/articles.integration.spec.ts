@@ -1,7 +1,9 @@
+import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
-import { Headers } from '@_src/api/factories/authorization-header.api.factory';
+import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { ArticlePayload } from '@_src/api/models/article.api.model';
-import { apiLinks, getAuthorizationHeader } from '@_src/api/utils/api.utils';
+import { Headers } from '@_src/api/models/headers.api.model';
+import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
@@ -33,24 +35,9 @@ test.describe('crud operations', () => {
   });
 
   test.beforeEach('create an article', async ({ request }) => {
-    articleData = prepareArticlePayload();
-    responseArticle = await request.post(apiLinks.articlesUrl, {
-      headers,
-      data: articleData,
-    });
-
-    // assert article exist
-    const articleJson = await responseArticle.json();
-    const expectedStatusCode = 200;
-    await expect(async () => {
-      const responseArticleCreated = await request.get(
-        `${apiLinks.articlesUrl}/${articleJson.id}`,
-      );
-      expect(
-        responseArticleCreated.status(),
-        `Expected status: ${expectedStatusCode} and observed: ${responseArticleCreated.status()}`,
-      ).toBe(expectedStatusCode);
-    }).toPass({ timeout: 2_000 });
+    const data = await createArticleWithApi(request, headers);
+    articleData = data.articleData;
+    responseArticle = data.responseArticle;
   });
 
   test('should create an article with logged-in user @GAD-R09-03', async () => {
