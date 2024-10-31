@@ -1,5 +1,7 @@
+import { expectGetResponseStatus } from '@_src/api/assertions/assertions.api';
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
+import { createCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
 import { prepareCommentPayload } from '@_src/api/factories/comment-payload.api.factory';
 import { CommentPayload } from '@_src/api/models/comment.api.model';
 import { Headers } from '@_src/api/models/headers.api.model';
@@ -13,14 +15,19 @@ test.describe('Verify comments CRUD operations @crud', () => {
 
   test.beforeAll('create an article', async ({ request }) => {
     headers = await getAuthorizationHeader(request);
-    const data = await createArticleWithApi(request, headers);
-    const responseArticle = data.responseArticle;
+    const { result } = await createArticleWithApi(request, headers);
 
-    const article = await responseArticle.json();
-    articleId = article.id;
+    if ('responseArticle' in result) {
+      const article = await result.responseArticle.json();
+      articleId = article.id;
+    } else {
+      throw new Error(
+        'Unexpected response structure from createArticleWithApi',
+      );
+    }
   });
 
-  test('should not create an comment without a logged-in user @GAD-R09-04', async ({
+  test('should not create an comment without a logged-in user @GAD-R08-04', async ({
     request,
   }) => {
     // Arrange
@@ -42,27 +49,11 @@ test.describe('Verify comments CRUD operations @crud', () => {
 
     test.beforeEach('create a comment', async ({ request }) => {
       commentData = prepareCommentPayload(articleId);
-      responseComment = await request.post(apiLinks.commentsUrl, {
-        headers,
-        data: commentData,
+      responseComment = await createCommentWithApi(request, headers, {
+        commentData,
       });
-
-      // assert comment
-      const commentJson = await responseComment.json();
-
-      const expectedStatusCode = 200;
-      await expect(async () => {
-        const responseCommentCreated = await request.get(
-          `${apiLinks.commentsUrl}/${commentJson.id}`,
-        );
-        expect(
-          responseCommentCreated.status(),
-          `Expected status: ${expectedStatusCode} and observed: ${responseCommentCreated.status()}`,
-        ).toBe(expectedStatusCode);
-      }).toPass({ timeout: 2_000 });
     });
-
-    test('should create a comment with logged-in user @GAD-R09-04', async () => {
+    test('should create a comment with logged-in user @GAD-R08-04', async () => {
       // Arrange
       const expectedStatusCode = 201;
 
@@ -77,7 +68,7 @@ test.describe('Verify comments CRUD operations @crud', () => {
       expect.soft(comment.body).toEqual(commentData.body);
     });
 
-    test('should delete a comment with logged-in user @GAD-R09-06', async ({
+    test('should delete a comment with logged-in user @GAD-R08-06', async ({
       request,
     }) => {
       // Arrange
@@ -102,20 +93,19 @@ test.describe('Verify comments CRUD operations @crud', () => {
       // Assert deleted comment
       const expectedStatusDeletedComment = 404;
 
-      const responseCommentDeletedGet = await request.get(
-        `${apiLinks.commentsUrl}/${comment.id}`,
-        {
-          headers,
-        },
+      const response = await expectGetResponseStatus(
+        request,
+        apiLinks.commentsUrl,
+        expectedStatusDeletedComment,
       );
 
       expect(
-        responseCommentDeletedGet.status(),
-        `expect status code ${expectedStatusDeletedComment}, and received ${responseCommentDeletedGet.status()}`,
+        response,
+        `expect status code ${expectedStatusDeletedComment}, and received ${response}`,
       ).toBe(expectedStatusDeletedComment);
     });
 
-    test('should not delete a comment with a non logged-in user @GAD-R09-06', async ({
+    test('should not delete a comment with a non logged-in user @GAD-R08-06', async ({
       request,
     }) => {
       // Arrange
