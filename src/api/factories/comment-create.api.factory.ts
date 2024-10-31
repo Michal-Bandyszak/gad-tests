@@ -5,17 +5,27 @@ import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect } from '@_src/ui/fixtures/merge.fixture';
 import { APIRequestContext, APIResponse } from '@playwright/test';
 
+type CommentSource = { articleId: number } | { commentData: CommentPayload };
+
 export async function createCommentWithApi(
   request: APIRequestContext,
   headers: Headers,
-  articleId: number,
-  commentData?: CommentPayload,
+  commentSource: CommentSource,
 ): Promise<APIResponse> {
-  const commentDataFinal = commentData || prepareCommentPayload(articleId);
-  const responseComment = await request.post(apiLinks.commentsUrl, {
-    headers,
-    data: commentDataFinal,
-  });
+  const commentDataFinal: CommentPayload = ((
+    cs: CommentSource,
+  ): CommentPayload =>
+    'articleId' in cs ? prepareCommentPayload(cs.articleId) : cs.commentData)(
+    commentSource,
+  );
+
+  const responseComment: APIResponse = await request.post(
+    apiLinks.commentsUrl,
+    {
+      headers,
+      data: commentDataFinal,
+    },
+  );
 
   // assert comment
   const commentJson = await responseComment.json();
@@ -30,5 +40,6 @@ export async function createCommentWithApi(
       `Expected status: ${expectedStatusCode} and observed: ${responseCommentCreated.status()}`,
     ).toBe(expectedStatusCode);
   }).toPass({ timeout: 2_000 });
-  return commentJson;
+
+  return responseComment;
 }
