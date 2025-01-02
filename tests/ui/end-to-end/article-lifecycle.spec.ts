@@ -5,7 +5,7 @@ test.describe.configure({ mode: 'serial' });
 test.describe('Create, verify and delete Article', () => {
   let articleData: AddArticleModel;
 
-  test('create new article @GAD-R04-01 @logged', async ({
+  test('create new article', { tag: [' @GAD-R04-01 @logged'] }, async ({
     createRandomArticle,
   }) => {
     // Arrange
@@ -23,7 +23,7 @@ test.describe('Create, verify and delete Article', () => {
       .toHaveText(articleData.body, { useInnerText: true });
   });
 
-  test('User can access single article @GAD-R04-03 @logged', async ({
+  test('User can access single article ', { tag: [' @GAD-R04-03 @logged'] }, async ({
     articlesPage,
   }) => {
     // Act
@@ -36,7 +36,7 @@ test.describe('Create, verify and delete Article', () => {
       .toHaveText(articleData.body, { useInnerText: true });
   });
 
-  test('User can delete added article @GAD-R04-04 @logged', async ({
+  test('User can delete added article', { tag: [' @GAD-R04-04 @logged'] }, async ({
     articlesPage,
   }) => {
     // Arrange
