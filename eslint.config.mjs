@@ -1,28 +1,24 @@
-import pluginJs from '@eslint/js';
-import eslintPluginPlaywright from 'eslint-plugin-playwright';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
+// eslint.config.mjs
+import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
+import eslintPluginPlaywright from 'eslint-plugin-playwright';
 
-export default [
-  { ignores: ['package-lock.json', 'playwright-report/**', 'test-results/**'] },
-  { files: ['**/*.ts'] },
-  { languageOptions: { globals: globals.node } },
-  pluginJs.configs.recommended,
-  {
-    rules: {
-      'no-console': 'error',
-    },
-  },
+export default tseslint.config(
+  eslint.configs.recommended,
   ...tseslint.configs.recommended,
-  {
-    rules: {
-      '@typescript-eslint/explicit-function-return-type': 'error',
-    },
-  },
   eslintPluginPlaywright.configs['flat/recommended'],
   {
+    languageOptions: {
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: '.',
+      },
+    },
     rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      'playwright/no-skipped-test': 'warn',
+      'playwright/valid-title': 'error',
       'playwright/no-nested-step': 'off',
     },
     settings: {
@@ -32,6 +28,5 @@ export default [
         },
       },
     },
-  },
-  eslintPluginPrettierRecommended,
-];
+  }
+);
