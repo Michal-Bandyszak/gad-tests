@@ -8,63 +8,73 @@ import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
-test.describe('Verify comments create operations @crud @api @comments', () => {
-  let articleId: number;
-  let headers: Headers;
+test.describe(
+  'Verify comments create operations ',
+  { tag: ['@crud @api @comments'] },
+  () => {
+    let articleId: number;
+    let headers: Headers;
 
-  test.beforeAll('create an article', async ({ request }) => {
-    headers = await getAuthorizationHeader(request);
-    const result = await createArticleWithApi(request, headers);
+    test.beforeAll('create an article', async ({ request }) => {
+      headers = await getAuthorizationHeader(request);
+      const result = await createArticleWithApi(request, headers);
 
-    if ('responseArticle' in result) {
-      const article = await result.responseArticle.json();
-      articleId = article.id;
-    } else {
-      throw new Error(
-        'Unexpected response structure from createArticleWithApi',
-      );
-    }
-  });
-
-  test('should not create an comment without a logged-in user @GAD-R08-04', async ({
-    request,
-  }) => {
-    // Arrange
-    const expectedStatusCode = 401;
-    const commentData = prepareCommentPayload(articleId);
-
-    // Arrange
-    const response = await request.post(apiLinks.commentsUrl, {
-      data: commentData,
+      if ('responseArticle' in result) {
+        const article = await result.responseArticle.json();
+        articleId = article.id;
+      } else {
+        throw new Error(
+          'Unexpected response structure from createArticleWithApi',
+        );
+      }
     });
 
-    // Assert
-    expect(response.status()).toBe(expectedStatusCode);
-  });
+    test(
+      'should not create an comment without a logged-in user ',
+      { tag: '@GAD-R08-04' },
+      async ({ request }) => {
+        // Arrange
+        const expectedStatusCode = 401;
+        const commentData = prepareCommentPayload(articleId);
 
-  test.describe('create operations', () => {
-    let responseComment: APIResponse;
-    let commentData: CommentPayload;
+        // Arrange
+        const response = await request.post(apiLinks.commentsUrl, {
+          data: commentData,
+        });
 
-    test.beforeEach('create a comment', async ({ request }) => {
-      commentData = prepareCommentPayload(articleId);
-      responseComment = await createCommentWithApi(request, headers, {
-        commentData,
+        // Assert
+        expect(response.status()).toBe(expectedStatusCode);
+      },
+    );
+
+    test.describe('create operations', () => {
+      let responseComment: APIResponse;
+      let commentData: CommentPayload;
+
+      test.beforeEach('create a comment', async ({ request }) => {
+        commentData = prepareCommentPayload(articleId);
+        responseComment = await createCommentWithApi(request, headers, {
+          commentData,
+        });
       });
-    });
-    test('should create a comment with logged-in user @GAD-R08-04', async () => {
-      // Arrange
-      const expectedStatusCode = 201;
+      test(
+        'should create a comment with logged-in user ',
+        { tag: '@GAD-R08-04' },
+        async () => {
+          // Arrange
+          const expectedStatusCode = 201;
 
-      // Assert
-      const actualResponseStatus = responseComment.status();
-      expect(
-        actualResponseStatus,
-        `expect status code ${expectedStatusCode}, and received ${actualResponseStatus}`,
-      ).toBe(expectedStatusCode);
+          // Assert
+          const actualResponseStatus = responseComment.status();
+          expect(
+            actualResponseStatus,
+            `expect status code ${expectedStatusCode}, and received ${actualResponseStatus}`,
+          ).toBe(expectedStatusCode);
 
-      const comment = await responseComment.json();
-      expect.soft(comment.body).toEqual(commentData.body);
+          const comment = await responseComment.json();
+          expect.soft(comment.body).toEqual(commentData.body);
+        },
+      );
     });
-  });
-});
+  },
+);
