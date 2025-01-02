@@ -45,11 +45,7 @@ test.describe('Verify articles DELETE operations @crud @article @api', () => {
       responseArticleGet,
       expectedDeletedArticleStatusCode,
     );
-
-    expect(
-      responseStatus,
-      `expected status code ${expectedDeletedArticleStatusCode}, and received ${responseStatus}`,
-    ).toBe(expectedDeletedArticleStatusCode);
+    expect(responseStatus).toBe(expectedStatusCode);
   });
 
   test('should not delete an article with non logged-in user GAD-R09-05', async ({
