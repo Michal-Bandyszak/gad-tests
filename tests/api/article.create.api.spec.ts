@@ -5,15 +5,13 @@ import { Headers } from '@_src/api/models/headers.api.model';
 import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
-test.describe('Verify article CREATE operations @crud @article @api', () => {
-  test('should not create an article without a logged-in user  @GAD-R09-03', async ({
-    request,
-  }) => {
+test.describe('Verify article CREATE operations', { tag: ['@crud', '@article', '@api'] }, () => {
+  test('should not create an article without a logged-in user', { tag: '@GAD-R09-03' }, async ({ request }) => {
     // Arrange
     const expectedStatusCode = 401;
     const articleData = prepareArticlePayload();
 
-    // Arrange
+    // Act
     const response = await request.post(apiLinks.articlesUrl, {
       data: articleData,
     });
@@ -30,9 +28,7 @@ test.describe('create operations', () => {
     headers = await getAuthorizationHeader(request);
   });
 
-  test('should create an article with logged-in user @GAD-R09-03', async ({
-    request,
-  }) => {
+  test('should create an article with logged-in user', { tag: '@GAD-R09-03' }, async ({ request }) => {
     const data = await createArticleWithApi(request, headers);
     const articleData = data.articleData;
     const responseArticle = data.responseArticle;
