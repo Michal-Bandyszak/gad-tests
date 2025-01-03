@@ -41,7 +41,7 @@ test.describe('Verify registration', () => {
 
   test(
     'Not register with incorrect data - non valid email',
-    { tag: '@GAD-R03-04' },
+    { tag: ['@GAD-R03-04', '@unhappy_path'] },
     async ({ registerPage }) => {
       // Arrange
       const expectedErrorText = 'Please provide a valid email address';
@@ -57,7 +57,7 @@ test.describe('Verify registration', () => {
   );
   test(
     'Not register with incorrect data - no email provided',
-    { tag: '@GAD-R03-04' },
+    { tag: ['@GAD-R03-04', '@unhappy_path']},
     async ({ registerPage }) => {
       // Arrange
       const expectedErrorText = 'This field is required';
