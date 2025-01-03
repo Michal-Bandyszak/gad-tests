@@ -21,7 +21,13 @@ test.describe('Verify login', () => {
 
   test(
     'Reject login test with incorrect password',
-    { tag: ' @GAD-R02-01 ' },
+    {
+      tag: ' @GAD-R02-01 ',
+      annotation: {
+        type: 'Happy path',
+        description: 'Basic happy path test for login',
+      },
+    },
     async ({ loginPage }) => {
       // Arrange
       const expectedLoginError = 'Invalid username or password';
