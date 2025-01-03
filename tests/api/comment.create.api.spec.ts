@@ -10,7 +10,7 @@ import { APIResponse } from '@playwright/test';
 
 test.describe(
   'Verify comments create operations ',
-  { tag: ['@crud @api @comments'] },
+  { tag: ['@crud', '@api', '@comments'] },
   () => {
     let articleId: number;
     let headers: Headers;

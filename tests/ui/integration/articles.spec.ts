@@ -5,7 +5,7 @@ import { waitForResponse } from '@_src/ui/utils/wait.util';
 test.describe('Verify articles', () => {
   test(
     'reject creating article without title',
-    { tag: ['@GAD-R04-01 @GAD-R07-03 @logged'] },
+    { tag: ['@GAD-R04-01', '@GAD-R07-03', '@logged'] },
     async ({ addArticleView, page }) => {
       // Arrange
       const expectedErrorMessage = 'Article was not created';
@@ -27,7 +27,7 @@ test.describe('Verify articles', () => {
 
   test(
     'reject creating article without body',
-    { tag: ['@GAD-R04-01 @GAD-R07-03 @logged'] },
+    { tag: ['@GAD-R04-01', '@GAD-R07-03', '@logged'] },
     async ({ addArticleView, page }) => {
       // Arrange
       const expectedErrorMessage = 'Article was not created';
@@ -48,7 +48,7 @@ test.describe('Verify articles', () => {
   test.describe('title length', () => {
     test(
       'reject creating article with title exceeding 128 signs',
-      { tag: [' @GAD-R04-02 @GAD-R07-03 @logged'] },
+      { tag: ['@GAD-R04-02', '@GAD-R07-03', '@logged'] },
       async ({ addArticleView, page }) => {
         // Arrange
         const expectedErrorMessage = 'Article was not created';
@@ -69,7 +69,7 @@ test.describe('Verify articles', () => {
 
     test(
       'create article with title with 128 signs',
-      { tag: [' @GAD-R04-02 @logged'] },
+      { tag: ['@GAD-R04-02', '@logged'] },
       async ({ addArticleView }) => {
         // Arrange
         const articleData = prepareRandomArticle(128);
@@ -85,7 +85,7 @@ test.describe('Verify articles', () => {
     );
     test(
       'should return created article from API',
-      { tag: ['@GAD-R07-04 @logged'] },
+      { tag: ['@GAD-R07-04', '@logged'] },
       async ({ addArticleView, page }) => {
         // Arrange
         const articleData = prepareRandomArticle();

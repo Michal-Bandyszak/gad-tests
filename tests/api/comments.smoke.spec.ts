@@ -3,7 +3,7 @@ import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe(
   'Verify comments API endpoint ',
-  { tag: ['@GAD-R08-02 @smoke'] },
+  { tag: ['@GAD-R08-02', '@smoke'] },
   () => {
     test.describe('verify each condition in separate test', () => {
       test('GET comments returns status code 200', async ({ request }) => {
@@ -17,20 +17,22 @@ test.describe(
         expect(response.status()).toBe(expectedStatusCode);
       });
 
-      test('GET comments should return at least one comment @predefined_data', async ({
-        request,
-      }) => {
-        // Arrange
-        const expectedCommentsCount = 1;
-        // Act
-        const response = await request.get(apiLinks.commentsUrl);
-        const responseJson = await response.json();
+      test(
+        'GET comments should return at least one comment',
+        { tag: '@predefined_data' },
+        async ({ request }) => {
+          // Arrange
+          const expectedCommentsCount = 1;
+          // Act
+          const response = await request.get(apiLinks.commentsUrl);
+          const responseJson = await response.json();
 
-        // Assert
-        expect(responseJson.length).toBeGreaterThanOrEqual(
-          expectedCommentsCount,
-        );
-      });
+          // Assert
+          expect(responseJson.length).toBeGreaterThanOrEqual(
+            expectedCommentsCount,
+          );
+        },
+      );
 
       test(
         'GET comments return comment object ',
