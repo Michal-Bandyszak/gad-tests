@@ -1,4 +1,5 @@
 import { expectGetResponseStatus } from '@_src/api/assertions/assertions.api';
+import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiLinks } from '@_src/api/utils/api.utils';
@@ -11,10 +12,19 @@ test.describe(
   () => {
     let responseArticle: APIResponse;
     let headers: Headers;
+    let articleId: number
 
     test.beforeAll('should login', async ({ request }) => {
       headers = await getAuthorizationHeader(request);
     });
+
+    test.beforeEach('should create article', async ({ request }) => {
+      const result = await createArticleWithApi(request, headers);
+      responseArticle = result.responseArticle;
+      const article = await responseArticle.json();
+      articleId = article.id;
+    });
+    
 
     test(
       'should delete an article with logged-in user ',
@@ -41,15 +51,10 @@ test.describe(
         ).toBe(expectedStatusCode);
 
         // Assert check deleted article
-        const responseArticleGet = `${apiLinks.articlesUrl}/${articleId}`;
+        const responseArticleGet = await request.get(`${apiLinks.articlesUrl}/${articleId}`);
         const expectedDeletedArticleStatusCode = 404;
-
-        const responseStatus = await expectGetResponseStatus(
-          request,
-          responseArticleGet,
-          expectedDeletedArticleStatusCode,
-        );
-        expect(responseStatus).toBe(expectedStatusCode);
+        expect(responseArticleGet.status(), `expect status code ${expectedDeletedArticleStatusCode}, and received ${responseArticleGet.status()} `).toBe(expectedDeletedArticleStatusCode)
+        
       },
     );
 
