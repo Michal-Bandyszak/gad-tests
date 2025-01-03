@@ -5,7 +5,7 @@ import { waitForResponse } from '@_src/ui/utils/wait.util';
 test.describe('Verify comment', () => {
   test(
     'should return created comment',
-    { tag: ['@GAD-R07-06 @logged'] },
+    { tag: ['@GAD-R07-06','@logged'] },
     async ({ createRandomArticle, page }) => {
       // Arrange
       const expectedCommentCreatedPopup = 'Comment was created';

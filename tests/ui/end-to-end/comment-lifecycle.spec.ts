@@ -4,8 +4,8 @@ import { AddCommentModel } from '@_src/ui/models/comment.model';
 
 test.describe('Create, verify and delete comment', () => {
   test(
-    'operate on comments ',
-    { tag: ['@GAD-R05-01 @GAD-R05-02 @logged'] },
+    'operate on comments',
+    { tag: ['@GAD-R05-01', '@GAD-R05-02', '@logged'] },
     async ({ createRandomArticle }) => {
       const newCommentData = prepareRandomComment();
       const articlePage = createRandomArticle.articlePage;
@@ -79,7 +79,7 @@ test.describe('Create, verify and delete comment', () => {
 
   test(
     'user can add more than one comment to article',
-    { tag: [' @GAD-R05-03 @logged'] },
+    { tag: ['@GAD-R05-03', '@logged'] },
     async ({ createRandomArticle }) => {
       let articlePage = createRandomArticle.articlePage;
       await test.step('create first comment', async () => {

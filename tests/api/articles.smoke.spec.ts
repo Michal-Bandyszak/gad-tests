@@ -3,7 +3,7 @@ import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe(
   'Verify articles API endpoint',
-  { tag: ['@GAD-R08-01 @smoke'] },
+  { tag: ['@GAD-R08-01', '@smoke'] },
   () => {
     test.describe('Verify each condition in separate test', () => {
       test(

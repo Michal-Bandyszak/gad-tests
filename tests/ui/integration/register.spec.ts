@@ -11,7 +11,7 @@ test.describe('Verify registration', () => {
 
   test(
     'Register with correct data and login',
-    { tag: ['@GAD-R03-01 @GAD-R03-02 @GAD-R03-03'] },
+    { tag: ['@GAD-R03-01','@GAD-R03-02','@GAD-R03-03'] },
     async ({ registerPage }) => {
       // Arrange
       const expectedAlertPopupText = 'User created';

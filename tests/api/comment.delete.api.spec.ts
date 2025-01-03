@@ -8,7 +8,7 @@ import { APIResponse } from '@playwright/test';
 
 test.describe(
   'Verify comments delete operations',
-  { tag: ['@crud @api @comment @delete'] },
+  { tag: ['@crud', '@api', '@comment', '@delete'] },
   () => {
     let articleId: number;
     let headers: Headers;
