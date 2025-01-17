@@ -94,28 +94,35 @@ test.describe(
         ).toBe(expectedStatusCode);
 
         // Assert non modified comment
-        expect.soft(commentJson.body).not.toEqual(modifiedCommentData.body);
+        const modifiedCommentGet = await request.get(
+          `${apiLinks.commentsUrl}/${commentJson.id}`,
+        );
+
+        const modifiedCommentGetJson = await modifiedCommentGet.json();
+
+        expect.soft(modifiedCommentGetJson.body).not.toEqual(modifiedCommentData.body);
+        expect.soft(modifiedCommentGetJson.body).toEqual(commentJson.body);
       },
     );
 
     test(
       'should create a comment with PUT if comment does not exist',
-      { tag: ['@GAD-R10-01', '@api', '@put', '@crud'] },
+      { tag: ['@GAD-R10-02', '@api', '@put', '@crud'] },
       async ({ request }) => {
         //Arrange 
 
         const expectedStatusCode = 201;
         const commentData = await prepareCommentPayload(articleId)
         
-        const responseComment: APIResponse = await request.put(
-          `apiLinks.commentsUrl/${new.Date().valueOf()}`,
+        const responseCommentPut: APIResponse = await request.put(
+          `${apiLinks.commentsUrl}/${new Date().valueOf()}`,
           {
             headers,
             data: commentData,
           },
         );
         
-        const responseCommentStatus = responseComment.status();
+        const responseCommentStatus = responseCommentPut.status();
         expect(
           responseCommentStatus,
           `expect satus code ${expectedStatusCode}, and recieved ${responseCommentStatus}`
