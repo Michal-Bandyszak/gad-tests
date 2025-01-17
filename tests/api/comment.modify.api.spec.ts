@@ -37,7 +37,7 @@ test.describe(
 
     test(
       'should modify a comment with logged-in user ',
-      { tag: '@GAD-R10-01' },
+      { tag: '@GAD-R10-02' },
       async ({ request }) => {
         // Arrange
         const expectedStatusCode = 200;
@@ -72,7 +72,7 @@ test.describe(
 
     test(
       'should not modify a comment with a non logged-in user',
-      { tag: '@GAD-R10-01' },
+      { tag: '@GAD-R10-02' },
       async ({ request }) => {
         // Arrange
         const expectedStatusCode = 401;
@@ -98,8 +98,29 @@ test.describe(
       },
     );
 
-    test('should create a comment with PUT', {tag: ['@api', '@put', '@crud'], async ({ request }) => {
+    test(
+      'should create a comment with PUT if comment does not exist',
+      { tag: ['@GAD-R10-01', '@api', '@put', '@crud'] },
+      async ({ request }) => {
+        //Arrange 
 
-    })
+        const expectedStatusCode = 201;
+        const commentData = await prepareCommentPayload(articleId)
+        
+        const responseComment: APIResponse = await request.put(
+          `apiLinks.commentsUrl/${new.Date().valueOf()}`,
+          {
+            headers,
+            data: commentData,
+          },
+        );
+        
+        const responseCommentStatus = responseComment.status();
+        expect(
+          responseCommentStatus,
+          `expect satus code ${expectedStatusCode}, and recieved ${responseCommentStatus}`
+        ).toBe(expectedStatusCode);
+      }
+    );
   },
 );
