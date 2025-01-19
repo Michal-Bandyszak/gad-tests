@@ -7,23 +7,24 @@ import { APIRequestContext, APIResponse } from '@playwright/test';
 
 type CommentSource = { articleId: number } | { commentData: CommentPayload };
 
+export async function prepareAndCreateCommentWithApi(
+  request: APIRequestContext,
+  headers: Headers,
+  articleId: number
+): Promise<APIResponse> {
+  const commentData = prepareCommentPayload(articleId);
+  return await createCommentWithApi(request, headers, commentData)
+}
 export async function createCommentWithApi(
   request: APIRequestContext,
   headers: Headers,
-  commentSource: CommentSource,
+  commentData: CommentPayload
 ): Promise<APIResponse> {
-  const commentDataFinal: CommentPayload = ((
-    cs: CommentSource,
-  ): CommentPayload =>
-    'articleId' in cs ? prepareCommentPayload(cs.articleId) : cs.commentData)(
-    commentSource,
-  );
-
   const responseComment: APIResponse = await request.post(
     apiLinks.commentsUrl,
     {
       headers,
-      data: commentDataFinal,
+      data: commentData,
     },
   );
 
