@@ -53,9 +53,9 @@ test.describe(
 
       test.beforeEach('create a comment', async ({ request }) => {
         commentData = prepareCommentPayload(articleId);
-        responseComment = await createCommentWithApi(request, headers, {
+        responseComment = await createCommentWithApi(request, headers,
           commentData,
-        });
+        );
       });
       test(
         'should create a comment with logged-in user ',

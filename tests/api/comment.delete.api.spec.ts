@@ -1,9 +1,10 @@
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
-import { createCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
+import { createCommentWithApi, prepareAndCreateCommentWithApi, prepareAndcreateCommentWithApi } from '@_src/api/factories/comment-create.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
 import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
+import { Aircraft } from '@faker-js/faker';
 import { APIResponse } from '@playwright/test';
 
 test.describe(
@@ -29,9 +30,7 @@ test.describe(
     });
 
     test.beforeEach(async ({ request }) => {
-      responseComment = await createCommentWithApi(request, headers, {
-        articleId: articleId,
-      });
+      responseComment = await prepareAndCreateCommentWithApi(request, headers, articleId);
     });
 
     test(
