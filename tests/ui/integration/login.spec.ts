@@ -5,7 +5,7 @@ import { testUser1 } from '@_src/ui/test-data/user.data';
 test.describe('Verify login', () => {
   test(
     'User login test with correct credentials',
-    { tag: ' @GAD-R02-01 ' },
+    { tag: '@GAD-R02-01' },
     async ({ loginPage }) => {
       // Arrange
       const expectedWelcomeTitle = 'Welcome';
@@ -22,7 +22,7 @@ test.describe('Verify login', () => {
   test(
     'Reject login test with incorrect password',
     {
-      tag: ' @GAD-R02-01 ',
+      tag: '@GAD-R02-01',
       annotation: {
         type: 'Happy path',
         description: 'Basic happy path test for login',
