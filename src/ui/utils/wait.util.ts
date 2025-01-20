@@ -24,7 +24,7 @@ export async function waitForResponse(
         (!waitParams.method ||
           response.request().method() === waitParams.method) &&
         (!waitParams.status || response.status() === waitParams.status) &&
-        (!waitParams.text || (await response.text()).includes(waitParams.text))
+        (!waitParams.text || (await response.text()).includes(JSON.stringify(waitParams.text)))
       );
     },
     {
