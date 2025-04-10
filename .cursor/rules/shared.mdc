@@ -1,0 +1,46 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AI Rules for {app-name}
+
+{project-description}
+
+## Tech Stack
+
+- Playwriight 1.49.1
+- TypeScript 5
+
+## Project Structure
+
+When introducing changes to the project, always follow the directory structure below:
+
+- `./src` - source code
+- `./tests/ui` - UI Tests 
+- `./tests/api` - API Tests
+- `./src/ui/pages` - pages objects -page object models
+- `./src/ui/factories` - factories files for UI
+- `./src/api/factories` - factories files for API
+
+
+When modifying the directory structure, always update this section.
+
+## Coding practices
+
+### Guidelines for clean code
+
+- Use feedback from linters to improve the code when making changes.
+- Prioritize error handling and edge cases.
+- Handle errors and edge cases at the beginning of functions.
+- Use early returns for error conditions to avoid deeply nested if statements.
+- Place the happy path last in the function for improved readability.
+- Avoid unnecessary else statements; use if-return pattern instead.
+- Use guard clauses to handle preconditions and invalid states early.
+- Implement proper error logging and user-friendly error messages.
+- Consider using custom error types or error factories for consistent error handling.
