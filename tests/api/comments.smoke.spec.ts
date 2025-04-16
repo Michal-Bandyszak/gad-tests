@@ -2,7 +2,7 @@ import { apiLinks } from '@_src/api/utils/api.utils';
 import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe(
-  'Verify comments API endpoint ',
+  'Verify comments API endpoint',
   { tag: ['@GAD-R08-02', '@smoke'] },
   () => {
     test.describe('verify each condition in separate test', () => {
@@ -35,13 +35,13 @@ test.describe(
       );
 
       test(
-        'GET comments return comment object ',
+        'GET comments return comment object',
         { tag: '@predefined_data' },
         async ({ request }) => {
           const response = await request.get(apiLinks.commentsUrl);
           const responseJson = await response.json();
 
-          await expect(
+          expect(
             typeof responseJson,
             'Response should return and object',
           ).toBe('object');
@@ -49,7 +49,7 @@ test.describe(
       );
 
       test(
-        'GET comments should return an object with required fields ',
+        'GET comments should return an object with required fields',
         { tag: '@predefined_data' },
         async ({ request }) => {
           const expectedRequiredFields = [

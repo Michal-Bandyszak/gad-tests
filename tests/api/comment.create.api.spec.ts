@@ -9,7 +9,7 @@ import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 import { APIResponse } from '@playwright/test';
 
 test.describe(
-  'Verify comments create operations ',
+  'Verify comments create operations',
   { tag: ['@crud', '@api', '@comments'] },
   () => {
     let articleId: number;
@@ -30,7 +30,7 @@ test.describe(
     });
 
     test(
-      'should not create an comment without a logged-in user ',
+      'should not create an comment without a logged-in user',
       { tag: '@GAD-R08-04' },
       async ({ request }) => {
         // Arrange
@@ -58,7 +58,7 @@ test.describe(
         );
       });
       test(
-        'should create a comment with logged-in user ',
+        'should create a comment with logged-in user',
         { tag: '@GAD-R08-04' },
         async () => {
           // Arrange

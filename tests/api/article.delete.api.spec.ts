@@ -1,4 +1,3 @@
-import { expectGetResponseStatus } from '@_src/api/assertions/assertions.api';
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
 import { Headers } from '@_src/api/models/headers.api.model';
@@ -27,7 +26,7 @@ test.describe(
     
 
     test(
-      'should delete an article with logged-in user ',
+      'should delete an article with logged-in user',
       { tag: '@GAD-R09-05' },
       async ({ request }) => {
         // Arrange

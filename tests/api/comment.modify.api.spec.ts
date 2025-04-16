@@ -34,13 +34,13 @@ test.describe('Verify comments modify operations', () => {
     { tag: ['@crud', '@api', '@comment', '@put'] },
     () => {
       test(
-        'should modify a comment with logged-in user ',
+        'should modify a comment with logged-in user',
         { tag: '@GAD-R10-02' },
         async ({ request }) => {
           // Arrange
           const expectedStatusCode = 200;
           const commentJson = await responseComment.json();
-          const modifiedCommentData = await prepareCommentPayload(articleId);
+          const modifiedCommentData = prepareCommentPayload(articleId);
 
           // Act
           const responseCommentModified = await request.put(
@@ -75,7 +75,7 @@ test.describe('Verify comments modify operations', () => {
           // Arrange
           const expectedStatusCode = 401;
           const commentJson = await responseComment.json();
-          const modifiedCommentData = await prepareCommentPayload(articleId)
+          const modifiedCommentData = prepareCommentPayload(articleId)
 
           // Act
           const responseCommentNotModified = await request.put(
@@ -110,7 +110,7 @@ test.describe('Verify comments modify operations', () => {
           //Arrange 
 
           const expectedStatusCode = 201;
-          const commentData = await prepareCommentPayload(articleId)
+          const commentData = prepareCommentPayload(articleId)
 
           const responseCommentPut: APIResponse = await request.put(
             `${apiLinks.commentsUrl}/${new Date().valueOf()}`,
@@ -134,13 +134,13 @@ test.describe('Verify comments modify operations', () => {
     { tag: ['@crud', '@api', '@comment', '@patch'] },
     () => {
       test(
-        'should  partially modify a comment with logged-in user ',
+        'should  partially modify a comment with logged-in user',
         { tag: '@GAD-R10-03' },
         async ({ request }) => {
           // Arrange
           const expectedStatusCode = 200;
           const commentJson = await responseComment.json();
-          const modifiedCommentData = await prepareCommentPayload(articleId);
+          const modifiedCommentData = prepareCommentPayload(articleId);
 
           // Act
           const responseCommentModified = await request.patch(
@@ -175,7 +175,7 @@ test.describe('Verify comments modify operations', () => {
           // Arrange
           const expectedStatusCode = 401;
           const commentJson = await responseComment.json();
-          const modifiedCommentData = await prepareCommentPayload(articleId)
+          const modifiedCommentData = prepareCommentPayload(articleId)
 
           // Act
           const responseCommentNotModified = await request.patch(
