@@ -12,7 +12,7 @@ export const RESPONSE_TIMEOUT = 10_000;
 export default defineConfig({
   testDir: './tests',
   globalSetup: 'config/global.setup.ts',
-  timeout: 60_000,
+  timeout: 20_000,
   expect: { timeout: 10_000 },
   fullyParallel: true,
   retries: 0,
