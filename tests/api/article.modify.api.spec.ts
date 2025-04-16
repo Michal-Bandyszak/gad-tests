@@ -1,4 +1,3 @@
-import { expectGetResponseStatus } from '@_src/api/assertions/assertions.api';
 import { createArticleWithApi } from '@_src/api/factories/article-create.api.factory';
 import { prepareArticlePayload } from '@_src/api/factories/article-payload.api.factory';
 import { getAuthorizationHeader } from '@_src/api/factories/authorization-header.api.factory';
@@ -28,7 +27,7 @@ test.describe(
     
 
     test(
-      'should modify an article with logged-in user ',
+      'should modify an article with logged-in user',
       { tag: '@GAD-R010-01' },
       async ({ request }) => {
         // Arrange

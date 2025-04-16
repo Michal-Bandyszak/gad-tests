@@ -26,7 +26,7 @@ test.describe('Create, verify and delete Article', () => {
   );
 
   test(
-    'User can access single article ',
+    'User can access single article',
     { tag: ['@GAD-R04-03', '@logged'] },
     async ({ articlesPage }) => {
       // Act

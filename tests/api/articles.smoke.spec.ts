@@ -19,7 +19,7 @@ test.describe(
             expect(response.status()).toBe(expectedStatusCode);
           });
           await test.step(
-            'GET articles should return at least one article ',
+            'GET articles should return at least one article',
             async () => {
               const expectedMinArticleCount = 1;
 
