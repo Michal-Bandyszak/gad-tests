@@ -3,7 +3,6 @@ import { expect, test } from '@_src/ui/fixtures/merge.fixture';
 
 test.describe('Verify menu main button', () => {
   test('comments button navigates to comments page @GAD-R01-03', async ({
-    articlesPage,
     page,
   }) => {
     //Arrange
@@ -11,6 +10,7 @@ test.describe('Verify menu main button', () => {
     const menuComponent = new MainMenuComponent(page);
 
     //Act
+    await page.goto('/Articles');
     const commentsPage = await menuComponent.clickCommentButton();
     const title = await commentsPage.getTitle();
 
@@ -19,16 +19,14 @@ test.describe('Verify menu main button', () => {
   });
 
   test('articles button navigates to articles page @GAD-R01-03', async ({
-    commentsPage,
     page,
   }) => {
     //Arrange
     const expectedArticlesTitle = 'Articles';
-
     const menuComponent = new MainMenuComponent(page);
 
     //Act
-
+    await page.goto('/Comments');
     const articlesPage = await menuComponent.clickArticlesButton();
     const title = await articlesPage.getTitle();
 
@@ -38,7 +36,6 @@ test.describe('Verify menu main button', () => {
 
   test('home page button navigates to main page @GAD-R01-03', async ({
     articlesPage,
-    page,
   }) => {
     // Arrange
     const expectedHomePageTitle = 'GAD';
