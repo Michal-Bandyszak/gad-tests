@@ -8,6 +8,7 @@
     "format:check": "npx prettier . --check \"!**.ts\"",
     "lint": "npx eslint . --ext .ts --max-warnings=0",
     "test": "npx playwright test",
+    "test:smoke": "npx playwright test ui/smoke",
     "test:headed": "npm run test -- --headed",
     "test:ui-mode": "npm run test -- --ui",
     "show-report": "npx playwright show-report"
